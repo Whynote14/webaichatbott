@@ -1,0 +1,160 @@
+{
+  "name": "tugas 3 Pengembangan Agen AI tanpa Koding",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nMy name is zinedine. How can I assist you today?",
+        "availableInChat": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        35.5
+      ],
+      "id": "f3410528-e9d9-42f1-89e7-9da24a9f80af",
+      "name": "When chat message received",
+      "webhookId": "b00e83a2-39fe-46b2-a7e1-2c16f68f4bcf",
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "Anda adalah chatbot informasi program pelatihan di NF Academy.\n\nTugas Anda:\n- Menjawab pertanyaan tentang program pelatihan, deskripsi, dan harga.\n- Gunakan data dari Google Sheets sebagai sumber utama.\n\nAturan:\n- Jawab dengan singkat dan jelas.\n- Jika data tidak ditemukan, jawab: \"Maaf, data tidak tersedia.\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        48
+      ],
+      "id": "b53be57f-1a1d-458d-86b1-5459e188d78c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        224
+      ],
+      "id": "77e49916-b5b7-44a9-bc0d-13bb09c9e1d4",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1jGupBkkhJcyoq00V4aEtjC9nz4PzT9UHj0GUVw641xA/edit?usp=sharing",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        608,
+        176
+      ],
+      "id": "c42edf7b-24e5-425a-a4fa-88a93c7cd97b",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "WozjC732u3hVBGzJ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-safeguard-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        112,
+        192
+      ],
+      "id": "a577cd59-01e9-4130-830a-ba6850dfa8f6",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "lMDadw4gQ0Ejvr7m",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "9e1b9575-52a9-47ae-9761-c4abdacd3125",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3d11e6e53822f4731590018760ac96737b4769128550dea194e4168a0c7860d0"
+  },
+  "id": "zct1gLWcKgQfbODE",
+  "tags": []
+}
