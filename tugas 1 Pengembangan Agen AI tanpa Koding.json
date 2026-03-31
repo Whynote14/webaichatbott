@@ -1,0 +1,120 @@
+{
+  "name": "tugas 1 Pengembangan Agen AI tanpa Koding",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "availableInChat": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "69828c6d-2fdf-439b-bd66-6e2353ee46a7",
+      "name": "When chat message received",
+      "webhookId": "badd9b07-6f0c-46af-bd9a-5f9fb9ca505a"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "Anda adalah Asisten Spesialis Sepak Bola.\n\nTugas Anda:\n- Menjawab pertanyaan tentang dunia sepak bola\n- Memberikan informasi tentang pemain, klub, dan kompetisi\n\nAturan:\n- Jawaban harus jelas, singkat, dan informatif\n- Jika pertanyaan di luar topik sepak bola, jawab:\n  \"Maaf, saya hanya bisa menjawab pertanyaan tentang sepak bola.\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b6f990de-1466-4038-abfe-a7c9566cddaa",
+      "name": "AI Agent",
+      "retryOnFail": true,
+      "waitBetweenTries": 200,
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        272,
+        192
+      ],
+      "id": "8a03128b-0f90-4c01-b4ba-d9b7600e1420",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "t5zi6YverPgcbBNq",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        544,
+        144
+      ],
+      "id": "21120f7a-9d06-4093-a155-c09180802472",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "acd94769-e81e-44bc-b1c1-88583b9e5c6d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3d11e6e53822f4731590018760ac96737b4769128550dea194e4168a0c7860d0"
+  },
+  "id": "BpZAo8aaxNJmxrAX",
+  "tags": []
+}
