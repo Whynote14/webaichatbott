@@ -1,0 +1,102 @@
+{
+  "name": "tugas 1 Implementasi AI untuk Pemasaran",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Pendaftaran Mahasiswa",
+        "formDescription": "harap isi data diri anda",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Nama",
+              "placeholder": "Tuliskan nama panjang anda",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "Tuliskan email anda,contoh:test@gmail.com",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Jurusan",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Teknik Informatika"
+                  },
+                  {
+                    "option": "Sistem Informasi "
+                  },
+                  {
+                    "option": "Bisnis Digital"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        182.490976712272,
+        0
+      ],
+      "id": "887add18-6d72-4cfd-be8f-116c9449c62c",
+      "name": "On form submission",
+      "webhookId": "d1df270c-2b8a-49ca-9b49-b7d402bfc901"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Informasi Pendaftaran",
+        "message": "=<div style=\"font-family: Arial, sans-serif; background-color: #fdf2f4; padding: 30px;\">\n  <div style=\"max-width: 500px; margin: auto; background: #ffffff; border-radius: 15px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.1);\">\n\n    <!-- HEADER -->\n    <div style=\"background: #f4c2c2; padding: 20px; text-align: center;\">\n      <h2 style=\"margin: 0; color: #ffffff;\">\n        Konfirmasi Pendaftaran\n      </h2>\n    </div>\n\n    <!-- CONTENT -->\n    <div style=\"padding: 20px;\">\n      <h3 style=\"color: #333;\">\n        Halo {{ $json.Nama }} 👋\n      </h3>\n\n      <p style=\"font-size: 14px; color: #555;\">\n        Terima kasih telah melakukan pendaftaran. Berikut adalah data yang telah kami terima:\n      </p>\n\n      <div style=\"background: #fff5f7; padding: 15px; border-radius: 10px; margin-top: 10px;\">\n        <p><strong>Nama:</strong> {{ $json.Nama }}</p>\n        <p><strong>Email:</strong> {{ $json.Email }}</p>\n        <p><strong>Kelas:</strong> {{ $json.Kelas }}</p>\n      </div>\n\n      <p style=\"margin-top: 15px; font-size: 14px; color: #555;\">\n        Silakan tunggu informasi selanjutnya dari kami.\n      </p>\n    </div>\n\n    <!-- FOOTER -->\n    <div style=\"background: #f4c2c2; padding: 15px; text-align: center;\">\n      <p style=\"margin: 0; font-size: 12px; color: #ffffff;\">\n        Salam,<br>\n        <strong>Admin Sekolah</strong>\n      </p>\n    </div>\n\n  </div>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        400,
+        0
+      ],
+      "id": "881f2dff-12e4-44e3-8fa8-adb1cb853383",
+      "name": "Send a message",
+      "webhookId": "01609532-76bf-4485-93d7-a0d3ce6d5c08",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "fYP1GzNAyLxOfcBv",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "4e8cc46d-e1a6-4176-b623-1fdaf2de6f43",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3d11e6e53822f4731590018760ac96737b4769128550dea194e4168a0c7860d0"
+  },
+  "id": "KSD0c6aELAiwngP9",
+  "tags": []
+}
