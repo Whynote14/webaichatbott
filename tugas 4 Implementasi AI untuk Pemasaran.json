@@ -1,0 +1,295 @@
+{
+  "name": "tugas 4 Implementasi AI untuk Pemasaran",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c2cc05b6-92fa-4da3-9ec0-dc2efb66cf30",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1TCIZJ0xQdfM89JONOH_3XnoteqUgbsTDXveUU1G9MBE",
+          "mode": "list",
+          "cachedResultName": "Salinan dari Auto Posting Scheduler",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TCIZJ0xQdfM89JONOH_3XnoteqUgbsTDXveUU1G9MBE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TCIZJ0xQdfM89JONOH_3XnoteqUgbsTDXveUU1G9MBE/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "146d73bf-cfbf-4be3-a675-bd47cfcdc59d",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "WozjC732u3hVBGzJ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "5204695906",
+        "text": "={{ $json.Content }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "64431d09-a05b-46d9-acfd-aad1b1aee4b2",
+      "name": "Send a text message",
+      "webhookId": "4a73b635-8c46-4c53-a224-d5f72201f928",
+      "credentials": {
+        "telegramApi": {
+          "id": "12BKkUXOpZvu4Nxj",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "18ea9b30-90e7-4fc9-8d55-99dc46d23a5d",
+              "name": "row_number",
+              "value": "={{ $('Code in JavaScript').item.json.row_number }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        0
+      ],
+      "id": "a00a98f7-2240-44fe-a810-765793461c61",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1TCIZJ0xQdfM89JONOH_3XnoteqUgbsTDXveUU1G9MBE",
+          "mode": "list",
+          "cachedResultName": "Salinan dari Auto Posting Scheduler",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TCIZJ0xQdfM89JONOH_3XnoteqUgbsTDXveUU1G9MBE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TCIZJ0xQdfM89JONOH_3XnoteqUgbsTDXveUU1G9MBE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $('Code in JavaScript').item.json.ID }}",
+            "Status": "published "
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Scheduled Date",
+              "displayName": "Scheduled Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Scheduled Time",
+              "displayName": "Scheduled Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "31a79fba-5033-4cd0-9b7b-ee4c4e89cd92",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "WozjC732u3hVBGzJ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst now = new Date(\n  new Date().toLocaleString(\"en-US\", { timeZone: \"Asia/Jakarta\" })\n);\n\nconst result = [];\n\nfor (const item of items) {\n  const row = item.json;\n\n  const date = row[\"Scheduled Date\"];\n  const time = row[\"Scheduled Time\"];\n  const status = row[\"Status\"];\n\n  const [day, month, year] = date.split(\"/\");\n  const scheduled = new Date(`${year}-${month}-${day}T${time}`);\n\n  console.log(\"NOW:\", now);\n  console.log(\"SCHEDULED:\", scheduled);\n\n  result.push({\n    json: {\n      ...row,\n      scheduled,\n      now,\n      valid: !isNaN(scheduled),\n      isPast: scheduled <= now,\n      status\n    }\n  });\n}\n\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "a52ec535-4b13-43a2-a9de-65af1e57df69",
+      "name": "Code in JavaScript",
+      "alwaysOutputData": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "fc62a0fc-c8b7-4937-8dd9-955b05a4c5ba",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3d11e6e53822f4731590018760ac96737b4769128550dea194e4168a0c7860d0"
+  },
+  "id": "sMSZMgsK1qH17O3l",
+  "tags": []
+}
